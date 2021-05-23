@@ -44,6 +44,7 @@ df2['ATR_diff'] = df2['high'] - df2['low']
 df2['ATR'] = df2['ATR_diff'].rolling(window=num_periods).mean()
 df2['Line'] = df2['TEMA']
 df2['upper_band'] = df2['Line'] + multiplier * df2['ATR']
+df2['lower_band'] = df2['Line'] - multiplier * df2['ATR']
 
 print(df2)
 
@@ -72,6 +73,17 @@ fig1.add_trace(
         line=go.scatter.Line(color="gray"),
         showlegend=True)
 )
+
+fig1.add_trace(
+    go.Scatter(
+        x=df2['date'],
+        y=df2['lower_band'],
+        name='lower band',
+        mode="lines",
+        line=go.scatter.Line(color="gray"),
+        showlegend=True)
+)
+
 
 fig1.add_trace(
     go.Scatter(
