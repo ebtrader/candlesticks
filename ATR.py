@@ -36,6 +36,14 @@ df2['SMA'] = TA.SMA(df2, 9)
 df2['FRAMA'] = TA.FRAMA(df2, 10)
 df2['TEMA'] = TA.TEMA(df2, 50)
 
+# ATR
+num_periods = 5
+multiplier = 1
+
+df2['ATR_diff'] = df2['high'] - df2['low']
+df2['ATR'] = df2['ATR_diff'].rolling(window=num_periods).mean()
+df2['Line'] = df2['TEMA']
+df2['upper_band'] = df2['Line'] + multiplier * df2['ATR']
 
 print(df2)
 
@@ -55,15 +63,15 @@ fig1 = go.Figure(data=[go.Candlestick(x=df2['date'],
 
 )
 
-# fig1.add_trace(
-#     go.Scatter(
-#         x=df2['date'],
-#         y=df2['SMA'],
-#         name='SMA',
-#         mode="lines",
-#         line=go.scatter.Line(color="gray"),
-#         showlegend=True)
-# )
+fig1.add_trace(
+    go.Scatter(
+        x=df2['date'],
+        y=df2['upper_band'],
+        name='upper band',
+        mode="lines",
+        line=go.scatter.Line(color="gray"),
+        showlegend=True)
+)
 
 fig1.add_trace(
     go.Scatter(
