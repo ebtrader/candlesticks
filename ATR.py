@@ -13,8 +13,8 @@ from datetime import datetime
 # https://www.geeksforgeeks.org/different-ways-to-create-pandas-dataframe/
 # https://thispointer.com/pandas-convert-dataframe-index-into-column-using-dataframe-reset_index-in-python/#:~:text=To%20convert%20all%20the%20indexes,on%20the%20dataframe%20object%20i.e.&text=It%20converted%20the%20indexes%20'ID,same%20name%20in%20the%20dataframe.
 
-
-data = yf.download(tickers = "ES=F", period = "12mo")
+ticker = "NQ=F"
+data = yf.download(tickers = ticker, period = "12mo")
 
 df1 = pd.DataFrame(data)
 
@@ -31,17 +31,17 @@ print(df)
 df2 = df.rename(columns = {'Date': 'date', 'Open':'open', 'High': 'high', 'Low':'low', 'Close':'close','Volume': 'volume'}, inplace = False)
 
 print(df2)
-
+num_periods = 21
 df2['SMA'] = TA.SMA(df2, 9)
 df2['FRAMA'] = TA.FRAMA(df2, 10)
-df2['TEMA'] = TA.TEMA(df2, 50)
+df2['TEMA'] = TA.TEMA(df2, num_periods)
 
 # ATR
-num_periods = 5
+num_periods_ATR = 21
 multiplier = 1
 
 df2['ATR_diff'] = df2['high'] - df2['low']
-df2['ATR'] = df2['ATR_diff'].rolling(window=num_periods).mean()
+df2['ATR'] = df2['ATR_diff'].rolling(window=num_periods_ATR).mean()
 df2['Line'] = df2['TEMA']
 df2['upper_band'] = df2['Line'] + multiplier * df2['ATR']
 df2['lower_band'] = df2['Line'] - multiplier * df2['ATR']
