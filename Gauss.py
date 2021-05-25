@@ -65,12 +65,14 @@ df2.loc[1, 'diff'] = df2.loc[1, 'test'] * 0.4
 df2.loc[2, 'diff'] = df2.loc[2, 'test'] * 0.4
 df2.loc[3, 'diff'] = df2.loc[3, 'test'] * 0.4
 
+for i in range(4, len(df2)):
+    df2.loc[i, 'diff'] = df2.loc[i, 'test'] + df2.loc[i-1, 'diff'] + df2.loc[i-2, 'diff']
+
 
 # for i in range(1, len(df2)):
 #     df2.loc[i, 'diff'] = df2.loc[i, 'test'] + df2.loc[i-1, 'diff']
 
-for i in range(4, len(df2)):
-    df2.loc[i, 'diff'] = df2.loc[i, 'test'] + df2.loc[i-1, 'diff'] + df2.loc[i-2, 'diff']
+
 
 
 # pi
@@ -82,11 +84,32 @@ for i in range(4, len(df2)):
 
 
 # Gauss
-# num_periods_gauss = 16.5
-# df2['symbol'] = 2 * math.pi / num_periods_gauss
-# df2['beta'] = (1 - np.cos(df2['symbol']) ) / ((1.414)**(0.5) - 1)
-# df2['alpha'] = - df2['beta'] + (df2['beta']**2 + df2['beta'] * 2)**2
-# df2['gauss'] = df2['close'] * df2['alpha']**4 + (4 * (1- df2['alpha']))
+num_periods_gauss = 16.5
+df2['symbol'] = 2 * math.pi / num_periods_gauss
+df2['beta'] = (1 - np.cos(df2['symbol']) ) / ((1.414)**(0.5) - 1)
+df2['alpha'] = - df2['beta'] + (df2['beta']**2 + df2['beta'] * 2)**2
+
+# Gauss equation
+# initialize
+df2.loc[0, 'gauss'] = df2.loc[0, 'close']
+df2.loc[1, 'gauss'] = df2.loc[1, 'close']
+df2.loc[2, 'gauss'] = df2.loc[2, 'close']
+df2.loc[3, 'gauss'] = df2.loc[3, 'close']
+df2.loc[4, 'gauss'] = df2.loc[4, 'close']
+
+for i in range (4, len(df2)):
+    df2.loc[i, 'gauss'] = df2.loc[i, 'close'] * df2.loc[i, 'alpha']**4 + (4 * (1 - df2.loc[i, 'alpha']))*df2.loc[i-1, 'gauss'] \
+                          - (6 * ((1 - df2.loc[i, 'alpha']) ** 2) * df2.loc[i - 2, 'gauss']) \
+                          + (4 * (1 - df2.loc[i, 'alpha']) ** 3) * df2.loc[i - 3, 'gauss'] \
+                          - ((1 - df2.loc[i, 'alpha']) ** 4) * df2.loc[i - 4, 'gauss']
+
+
+
+
+    #df2.loc[i, 'gauss'] = df2.loc[i, 'close']  + df2.loc[i-2, 'gauss']
+#df2['gauss'] = df2['close'] * df2['alpha']**4 + (4 * (1- df2['alpha']))
+
+
 
 print(df2)
 
