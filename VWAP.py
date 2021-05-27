@@ -19,8 +19,8 @@ from datetime import datetime
 # https://thispointer.com/pandas-convert-dataframe-index-into-column-using-dataframe-reset_index-in-python/#:~:text=To%20convert%20all%20the%20indexes,on%20the%20dataframe%20object%20i.e.&text=It%20converted%20the%20indexes%20'ID,same%20name%20in%20the%20dataframe.
 
 ticker = "NQ=F"
-data = yf.download(tickers = ticker, start='2019-01-01', end='2019-12-31')
-# data = yf.download(tickers = ticker, period = "1y")
+# data = yf.download(tickers = ticker, start='2019-01-01', end='2019-12-31')
+data = yf.download(tickers = ticker, period = "5d", interval="5m")
 
 # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
 # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
@@ -95,7 +95,7 @@ df2.loc[3, 'gauss'] = df2.loc[3, 'close']
 df2.loc[4, 'gauss'] = df2.loc[4, 'close']
 
 for i in range (4, len(df2)):
-    df2.loc[i, 'gauss'] = df2.loc[i, 'close'] * df2.loc[i, 'alpha']**4 + (4 * (1 - df2.loc[i, 'alpha']))*df2.loc[i-1, 'gauss'] \
+    df2.loc[i, 'gauss'] = df2.loc[i, 'VWAP'] * df2.loc[i, 'alpha']**4 + (4 * (1 - df2.loc[i, 'alpha']))*df2.loc[i-1, 'gauss'] \
                           - (6 * ((1 - df2.loc[i, 'alpha']) ** 2) * df2.loc[i - 2, 'gauss']) \
                           + (4 * (1 - df2.loc[i, 'alpha']) ** 3) * df2.loc[i - 3, 'gauss'] \
                           - ((1 - df2.loc[i, 'alpha']) ** 4) * df2.loc[i - 4, 'gauss']
@@ -133,7 +133,7 @@ df2.to_csv("gauss.csv")
 
 # fig1 = px.scatter(df2, x='date', y=['close', 'open', 'high', 'low'], title='SPY Daily Chart')
 
-fig1 = go.Figure(data=[go.Candlestick(x=df2['date'],
+fig1 = go.Figure(data=[go.Candlestick(x=df2['Datetime'],
                 open=df2['open'],
                 high=df2['high'],
                 low=df2['low'],
@@ -143,7 +143,7 @@ fig1 = go.Figure(data=[go.Candlestick(x=df2['date'],
 
 fig1.add_trace(
     go.Scatter(
-        x=df2['date'],
+        x=df2['Datetime'],
         y=df2['upper_band'],
         name='upper band',
         mode="lines",
@@ -153,7 +153,7 @@ fig1.add_trace(
 
 fig1.add_trace(
     go.Scatter(
-        x=df2['date'],
+        x=df2['Datetime'],
         y=df2['lower_band'],
         name='lower band',
         mode="lines",
@@ -163,7 +163,7 @@ fig1.add_trace(
 
 fig1.add_trace(
     go.Scatter(
-        x=df2['date'],
+        x=df2['Datetime'],
         y=df2['upper_band_1'],
         name='upper band_1',
         mode="lines",
@@ -173,7 +173,7 @@ fig1.add_trace(
 
 fig1.add_trace(
     go.Scatter(
-        x=df2['date'],
+        x=df2['Datetime'],
         y=df2['lower_band_1'],
         name='lower band_1',
         mode="lines",
@@ -184,7 +184,7 @@ fig1.add_trace(
 
 fig1.add_trace(
     go.Scatter(
-        x=df2['date'],
+        x=df2['Datetime'],
         y=df2['Line'],
         name="Gauss",
         mode="lines",
