@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 ticker = "NQ=F"
-data = yf.download(tickers = ticker, start='2019-01-01', end='2019-12-31')
+data = yf.download(tickers = ticker, start='2010-01-04', end='2012-12-31')
 # data = yf.download(tickers = ticker, period = "1y")
 
 # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
@@ -56,3 +56,13 @@ agg_df['open'] = df5['open']
 agg_df['close'] = df6['close']
 
 print(agg_df)
+
+fig1 = go.Figure(data=[go.Candlestick(x=agg_df['date'],
+                open=agg_df['open'],
+                high=agg_df['high'],
+                low=agg_df['low'],
+                close=agg_df['close'])]
+
+)
+
+fig1.show()
