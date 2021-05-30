@@ -10,8 +10,8 @@ import pandas as pd
 from datetime import datetime
 
 ticker = "NQ=F"
-data = yf.download(tickers = ticker, start='2010-01-04', end='2018-12-31')
-# data = yf.download(tickers = ticker, period = "1y")
+data = yf.download(tickers = ticker, start='2015-01-04', end='2021-05-28')
+# data = yf.download(tickers = ticker, period = "3mo", interval = '5m')
 
 # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
 # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
@@ -31,7 +31,7 @@ df7 = df.rename(columns = {'Date': 'date', 'Open':'open', 'High': 'high', 'Low':
 # print(df7)
 df7.to_csv('daily.csv')
 
-n = 8
+n = 5
 
 df3 = df7.groupby(np.arange(len(df7))//n).max()
 # print('df3 max:', df3)
@@ -126,7 +126,7 @@ multiplier = 1
 df2['ATR_diff'] = df2['high'] - df2['low']
 df2['ATR'] = df2['ATR_diff'].ewm(span=num_periods_ATR, adjust=False).mean()
 # df2['ATR'] = df2['ATR_diff'].rolling(window=num_periods_ATR).mean()
-df2['Line'] = df2['gauss']
+df2['Line'] = df2['TEMA']
 df2['upper_band'] = df2['Line'] + multiplier * df2['ATR']
 df2['lower_band'] = df2['Line'] - multiplier * df2['ATR']
 

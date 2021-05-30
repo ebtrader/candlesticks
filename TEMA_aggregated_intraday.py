@@ -10,8 +10,8 @@ import pandas as pd
 from datetime import datetime
 
 ticker = "NQ=F"
-data = yf.download(tickers = ticker, start='2010-01-04', end='2018-12-31')
-# data = yf.download(tickers = ticker, period = "1y")
+# data = yf.download(tickers = ticker, start='2015-01-04', end='2021-05-28')
+data = yf.download(tickers = ticker, period = "10d", interval = '5m')
 
 # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
 # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
@@ -20,18 +20,18 @@ data = yf.download(tickers = ticker, start='2010-01-04', end='2018-12-31')
 
 df1 = pd.DataFrame(data)
 
-# print(df1)
+print(df1)
 
 df = df1.reset_index()
 
-# print(df)
+print(df)
 
-df7 = df.rename(columns = {'Date': 'date', 'Open':'open', 'High': 'high', 'Low':'low', 'Close':'close','Volume': 'volume'}, inplace = False)
+df7 = df.rename(columns = {'Datetime': 'date', 'Open':'open', 'High': 'high', 'Low':'low', 'Close':'close','Volume': 'volume'}, inplace = False)
 
-# print(df7)
+print(df7)
 df7.to_csv('daily.csv')
 
-n = 8
+n = 9
 
 df3 = df7.groupby(np.arange(len(df7))//n).max()
 # print('df3 max:', df3)
