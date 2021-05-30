@@ -36,16 +36,16 @@ df2 = clean_df
 n = 5000
 
 df3 = df2.groupby(np.arange(len(df2))//n).max()
-print('df3 max:', df3)
+# print('df3 max:', df3)
 
 df4 = df2.groupby(np.arange(len(df2))//n).min()
-print('df4 min:', df4)
+# print('df4 min:', df4)
 
 df5 = df2.groupby(np.arange(len(df2))//n).first()
-print('df5 open:', df5)
+# print('df5 open:', df5)
 
 df6 = df2.groupby(np.arange(len(df2))//n).last()
-print('df6 close:', df6)
+# print('df6 close:', df6)
 
 
 agg_df = pd.DataFrame()
