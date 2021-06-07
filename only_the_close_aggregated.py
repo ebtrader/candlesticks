@@ -11,7 +11,7 @@ from datetime import datetime
 
 # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
 
-df1 = pd.read_csv('SQL_Streaming.csv')
+df1 = pd.read_csv('finals/SQL_Streaming.csv')
 
 #print(df1)
 
