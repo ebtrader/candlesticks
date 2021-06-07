@@ -33,7 +33,7 @@ df2 = clean_df
 
 # print(df2)
 
-n = 5000
+n = 144
 
 df3 = df2.groupby(np.arange(len(df2))//n).max()
 # print('df3 max:', df3)
